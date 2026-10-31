@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { templates } from './templates.ts'
 
 // Workbench zoom levels, 1x to 4x
-const ZOOMS = ['[zoom:1]', '[zoom:2]', '[zoom:3]', '[zoom:4]']
+const ZOOMS = ['zoom-100', 'zoom-200', 'zoom-300', 'zoom-400']
 
 export function App() {
   // ?template=<name>&label=<item> shows just that label at print size, for scripts/export.ts
@@ -25,7 +25,7 @@ function Workbench() {
   const [zoom, setZoom] = useState(3)
   return (
     <div className="min-h-screen bg-zinc-900 font-sans text-zinc-100">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-zinc-800 bg-zinc-900/90 px-8 py-4 backdrop-blur">
+      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-zinc-800 bg-zinc-900/90 px-8 py-4 backdrop-blur-sm">
         <h1 className="text-lg font-semibold tracking-tight">Print labels</h1>
         <div className="flex items-center gap-1 rounded-lg bg-zinc-800 p-1 text-sm" role="group" aria-label="Zoom">
           {ZOOMS.map((_, index) => (

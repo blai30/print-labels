@@ -5,10 +5,8 @@ import type { ReactNode } from 'react'
 import { type LineStyle, SwitchIcon } from './SwitchIcon.tsx'
 import type { Part, Switch } from './types.ts'
 
-// The icon outline style on every label
 const LINES: LineStyle = 'black'
 
-// A value the switch file doesn't have
 const Missing = () => <span className="text-zinc-400">?</span>
 
 const shown = (value: number | undefined, digits?: number) =>
@@ -16,25 +14,24 @@ const shown = (value: number | undefined, digits?: number) =>
 
 function Spec({ icon: Icon, children }: { icon: LucideIcon; children: ReactNode }) {
   return (
-    <div className="flex items-center gap-[1.7mm]">
-      <Icon className="size-[2.4mm] shrink-0 text-zinc-700" strokeWidth={3} />
+    <div className="flex items-center gap-1.5">
+      <Icon className="size-2.25 shrink-0 text-zinc-700" strokeWidth={3} />
       <span>{children}</span>
     </div>
   )
 }
 
-// A travel distance with one decimal, right-aligned in a three-character slot
+// Right-aligned so the units line up
 const Travel = ({ value }: { value: number | undefined }) => (
   <>
     <span className="inline-block w-[3ch] text-right">{shown(value, 1)}</span> mm
   </>
 )
 
-// A part's color swatch and material. A clear part with no color gets a white swatch.
 function Material({ part }: { part: Part }) {
   return (
-    <div className="flex items-center gap-[1.4mm]">
-      <svg viewBox="0 0 1 1" className="size-[1.6mm] shrink-0 rounded-[0.3mm] shadow-[0_0_0_0.15mm_rgb(0_0_0/0.6)]">
+    <div className="flex items-center gap-1.25">
+      <svg viewBox="0 0 1 1" className="size-1.5 shrink-0 rounded-[0.3mm] ring-[0.15mm] ring-black/60">
         <rect width={1} height={1} fill={part.color ?? '#ffffff'} />
       </svg>
       <span>{part.material ?? <Missing />}</span>
@@ -42,23 +39,22 @@ function Material({ part }: { part: Part }) {
   )
 }
 
-/** One Avery 6460 label (1" x 2-5/8"): brand, name, and type, three spec rows beside the stem, top, and bottom materials, and the icon */
+/** One Avery 6460 label (1" x 2-5/8") */
 export function SwitchLabel({ data }: { data: Switch }) {
-  const { actuation, bottomOut } = data
   return (
-    <div className="flex h-[25.4mm] w-[66.675mm] gap-[3mm] overflow-hidden bg-white px-[3.5mm] py-[2.2mm] font-sans [font-feature-settings:'ss03','ss05'] text-zinc-900">
+    <div className="flex h-24 w-63 gap-2.75 overflow-hidden bg-white px-3.25 py-2 font-sans font-features-['ss05'] text-zinc-900">
       <div className="flex min-w-0 flex-1 flex-col whitespace-nowrap">
-        <div className="mb-[0.5mm] text-[6pt] leading-[2.3mm] text-zinc-500">{data.brand}</div>
-        <div className="text-[11pt] leading-[4.4mm] font-semibold">{data.name}</div>
-        <div className="mt-[0.5mm] text-[7.5pt] leading-[3.2mm] font-medium capitalize">
+        <div className="mb-0.5 text-[6pt]/2.25 text-zinc-500">{data.brand}</div>
+        <div className="text-[11pt]/4.25 font-semibold">{data.name}</div>
+        <div className="mt-0.5 text-[7.5pt]/3 font-medium capitalize">
           {data.type}
           {data.silent && ' · Silent'}
         </div>
-        <div className="mt-auto grid grid-cols-[17mm_auto] grid-rows-[repeat(3,2.8mm)] gap-x-[2.5mm] font-mono [font-feature-settings:'ss09'] text-[6pt] leading-none">
+        <div className="mt-auto grid h-8 grid-cols-[--spacing(16)_auto] grid-rows-3 gap-x-2.25 font-mono font-features-['ss09'] text-[6pt]/none">
           <Spec icon={Weight}>
-            {/* Actuation to bottom-out, like 57–63.5 g */}
-            {actuation !== undefined && <>{actuation}–</>}
-            {shown(bottomOut)} g
+            {/* Actuation to bottom-out */}
+            {data.actuation !== undefined && <>{data.actuation}–</>}
+            {shown(data.bottomOut)} g
           </Spec>
           <Material part={data.stem} />
           <Spec icon={MoveDown}>
@@ -71,8 +67,8 @@ export function SwitchLabel({ data }: { data: Switch }) {
           <Material part={data.bottom} />
         </div>
       </div>
-      <div className="aspect-square h-full shrink-0 py-[0.3mm]">
-        <SwitchIcon data={data} lines={LINES} className="block size-full" />
+      <div className="aspect-square h-full shrink-0 py-0.25">
+        <SwitchIcon data={data} lines={LINES} />
       </div>
     </div>
   )

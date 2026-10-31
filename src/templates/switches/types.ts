@@ -1,6 +1,4 @@
-// The shape of a switch file in data/, named <brand>-<name>.json in lowercase words joined by hyphens (like
-// hmx-butter.json). Leave out any optional field you don't know.
-
+// A switch file in data/. Leave out optional fields you don't know.
 export type Switch = {
   name: string
   brand: string

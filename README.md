@@ -1,6 +1,6 @@
 # print-labels
 
-Designs printable labels in the browser and exports each label as its own vector PDF. Built with Vite, React, TypeScript, and Tailwind CSS. Keyboard switch lid labels (Avery 6460) are the first template.
+Designs printable labels in the browser and exports each label as its own vector PDF. Built with Vite, React, TypeScript, and Tailwind CSS.
 
 ## Setup
 

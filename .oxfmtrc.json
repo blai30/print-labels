@@ -2,19 +2,12 @@
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "sortTailwindcss": {
     "stylesheet": "./src/index.css",
-    "functions": ["tw", "clsx", "cva"]
+    "functions": ["clsx"]
   },
-  "arrowParens": "always",
-  "bracketSpacing": true,
-  "endOfLine": "lf",
-  "ignorePatterns": ["**/dist/**", "**/node_modules/**", "**/out/**", "**/public/**"],
-  "jsxSingleQuote": false,
   "printWidth": 120,
   "semi": false,
   "singleQuote": true,
   "sortImports": true,
   "sortPackageJson": false,
-  "tabWidth": 2,
-  "trailingComma": "es5",
-  "useTabs": false
+  "trailingComma": "es5"
 }
