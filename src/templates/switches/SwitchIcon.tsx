@@ -18,16 +18,16 @@ import type { Switch } from './types.ts'
 const LINE = '#262626'
 const SILHOUETTE = 0.66
 const SEAM = 0.33
-// Every icon shares this frame, so icons line up on the labels
+// Shared frame so icons line up across labels
 const PAD = SILHOUETTE + 0.2
 const VIEW_BOX = [-13.1 - PAD, -18.4 - PAD, 26.2 + 2 * PAD, 24.5 + 2 * PAD].map((value) => value.toFixed(2)).join(' ')
 
-/** Black outline and seams, the same lines in a darker shade of each part's color, or no lines */
+/** Black outline and seams, seams in a darker shade of each part's color, or no lines */
 export type LineStyle = 'black' | 'tinted' | 'none'
 
 const path = (points: Point[]) => 'M' + points.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join(' L') + 'Z'
 
-// The thin stroke in the fill color closes the hairline gaps between neighboring faces
+// The fill-colored stroke closes hairline gaps between faces
 function Faces({ faces }: { faces: Face[] }) {
   return faces.map((face, index) => (
     <path
@@ -42,8 +42,8 @@ function Faces({ faces }: { faces: Face[] }) {
   ))
 }
 
-// The faces filled and stroked in a line color, drawn behind a part so a line shows around it
-function Underlay({ faces, color, width }: { faces: Face[]; color: string; width: number }) {
+// Faces drawn thick in the line color behind a part, so a line shows around it
+function Outline({ faces, color, width }: { faces: Face[]; color: string; width: number }) {
   return (
     <path
       d={faces.map((face) => path(face.points)).join('')}
@@ -56,20 +56,12 @@ function Underlay({ faces, color, width }: { faces: Face[]; color: string; width
 }
 
 function Seam({ faces, colors, lines }: { faces: Face[]; colors: Palette; lines: LineStyle }) {
-  if (lines === 'black') return <Underlay faces={faces} color={LINE} width={SEAM} />
-  if (lines === 'tinted') return <Underlay faces={faces} color={colors.line} width={SEAM * 1.4} />
+  if (lines === 'black') return <Outline faces={faces} color={LINE} width={SEAM} />
+  if (lines === 'tinted') return <Outline faces={faces} color={colors.line} width={SEAM * 1.4} />
   return null
 }
 
-export function SwitchIcon({
-  data,
-  lines = 'black',
-  className,
-}: {
-  data: Switch
-  lines?: LineStyle
-  className?: string
-}) {
+export function SwitchIcon({ data, lines }: { data: Switch; lines: LineStyle }) {
   const id = useId()
   const bottom = palette(data.bottom)
   const top = palette(data.top)
@@ -78,7 +70,7 @@ export function SwitchIcon({
   const stemStyle = STEMS[data.stem.style ?? 'mx']
   const housing = topHousing(data, stemStyle.hole)
   const stem = stemStyle.draw(stemColors)
-  // What shows through a see-through top housing: the stem body down to the bottom housing
+  // Seen through a see-through top housing
   const body = rect(-3.65, 3.65, -2.8, 2.8)
   const stemBody = solid(
     [
@@ -97,10 +89,10 @@ export function SwitchIcon({
   ).map(([offset, z]) => project([5.5 + offset, 7.0, z]))
 
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox={VIEW_BOX} className={className}>
-      {/* Black lines get a silhouette behind everything; every style puts each part's seam behind its own faces */}
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox={VIEW_BOX} className="block size-full">
+      {/* Black lines add a silhouette behind everything; each part's seam goes behind its own faces */}
       {lines === 'black' && (
-        <Underlay
+        <Outline
           faces={[...bottomFaces, ...housing.faces, ...stem.faces, ...stem.front]}
           color={LINE}
           width={SILHOUETTE}
@@ -109,11 +101,10 @@ export function SwitchIcon({
       <Seam faces={bottomFaces} colors={bottom} lines={lines} />
       <Faces faces={bottomFaces} />
       {bottom.see > 0 && <path d={path(bottomGlint)} fill="#ffffff" />}
-
       <Seam faces={housing.faces} colors={top} lines={lines} />
       {top.see > 0 ? (
         <>
-          {/* Each housing face, then the stem body inside it clipped to that face and baked as a solid mix */}
+          {/* Each housing face, then the stem body clipped to it as a solid mix */}
           {housing.faces.map((face, index) => (
             <g key={index}>
               <Faces faces={[face]} />
@@ -164,7 +155,6 @@ export function SwitchIcon({
           </g>
         </>
       )}
-
       <Seam faces={[...stem.faces, ...stem.front]} colors={stemColors} lines={lines} />
       <Faces faces={stem.faces} />
       {stem.clipped.map(([clips, inside], index) => (

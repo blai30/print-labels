@@ -1,129 +1,51 @@
-// Color and geometry for a flat isometric icon of a generic MX-style switch, measured from Gateron's STEP models and
-// Cherry's drawings and seen in true isometric from the north-west, so the LED side is the lower-left face.
+// Flat isometric icon of an MX-style switch, measured from Gateron's STEP models and Cherry's drawings.
+// Seen from the north-west, so the LED side is the lower-left face.
 import type { Part, Switch } from './types.ts'
 
 export type Point = [number, number]
 type Point3 = [number, number, number]
 type Ring = [Point[], number]
-type Tone = 'top' | 'left' | 'right' | 'interior' | 'deep' | 'line'
-export type Palette = Record<Tone, string> & { see: number; rim: string }
+type Tone = 'top' | 'left' | 'right' | 'interior' | 'deep'
+export type Palette = Record<Tone, string> & { line: string; see: number; rim: string }
 export type Face = { points: Point[]; fill: string; holes?: Point[][] }
 
-// Color: sRGB <-> Oklab and OKLCH
+export const mix = (first: string, second: string, amount: number) =>
+  `color-mix(in oklab, ${first}, ${second} ${amount * 100}%)`
+const shade = (color: string, lightness: string) => `oklch(from ${color} ${lightness} c h)`
 
-const clamp = (value: number) => Math.min(Math.max(value, 0), 1)
-const toLinear = (channel: number) => (channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4)
-const toSrgb = (channel: number) => (channel <= 0.0031308 ? 12.92 * channel : 1.055 * channel ** (1 / 2.4) - 0.055)
-
-function hexToOklab(color: string): Point3 {
-  const [red, green, blue] = [1, 3, 5].map((i) => toLinear(parseInt(color.slice(i, i + 2), 16) / 255))
-  const long = (0.4122214708 * red + 0.5363325363 * green + 0.0514459929 * blue) ** (1 / 3)
-  const medium = (0.2119034982 * red + 0.6806995451 * green + 0.1073969566 * blue) ** (1 / 3)
-  const short = (0.0883024619 * red + 0.2817188376 * green + 0.6299787005 * blue) ** (1 / 3)
-  return [
-    0.2104542553 * long + 0.793617785 * medium - 0.0040720468 * short,
-    1.9779984951 * long - 2.428592205 * medium + 0.4505937099 * short,
-    0.0259040371 * long + 0.7827717662 * medium - 0.808675766 * short,
-  ]
+// Left-face lightness, lifting very dark colors and keeping very light ones off paper white
+const KNEE = 'max(min(l, 0.88 + (l - 0.88) / 6), 0.42 + l / 15)'
+const LIGHTNESS: Record<Tone, string> = {
+  top: `calc(${KNEE} + 0.08)`,
+  left: KNEE,
+  right: `calc(${KNEE} - 0.1)`,
+  interior: `calc(${KNEE} - 0.18)`,
+  deep: `max(${KNEE} - 0.32, 0.22)`,
 }
-
-function hexToOklch(color: string): Point3 {
-  const [lightness, greenRed, blueYellow] = hexToOklab(color)
-  return [lightness, Math.hypot(greenRed, blueYellow), Math.atan2(blueYellow, greenRed)]
-}
-
-function oklchToLinear(lightness: number, chroma: number, hue: number): Point3 {
-  const greenRed = chroma * Math.cos(hue)
-  const blueYellow = chroma * Math.sin(hue)
-  const long = (lightness + 0.3963377774 * greenRed + 0.2158037573 * blueYellow) ** 3
-  const medium = (lightness - 0.1055613458 * greenRed - 0.0638541728 * blueYellow) ** 3
-  const short = (lightness - 0.0894841775 * greenRed - 1.291485548 * blueYellow) ** 3
-  return [
-    4.0767416621 * long - 3.3077115913 * medium + 0.2309699292 * short,
-    -1.2684380046 * long + 2.6097574011 * medium - 0.3413193965 * short,
-    -0.0041960863 * long - 0.7034186147 * medium + 1.707614701 * short,
-  ]
-}
-
-// Hex for an OKLCH color, lowering chroma at the same lightness and hue until it fits in sRGB
-function oklchToHex(lightness: number, chroma: number, hue: number) {
-  lightness = clamp(lightness)
-  const fits = (value: number) =>
-    oklchToLinear(lightness, value, hue).every((channel) => channel >= -1e-6 && channel <= 1 + 1e-6)
-  if (!fits(chroma)) {
-    let low = 0
-    let high = chroma
-    for (let i = 0; i < 32; i++) {
-      const middle = (low + high) / 2
-      if (fits(middle)) low = middle
-      else high = middle
-    }
-    chroma = low
-  }
-  const channels = oklchToLinear(lightness, chroma, hue)
-  return (
-    '#' +
-    channels
-      .map((channel) =>
-        Math.round(clamp(toSrgb(clamp(channel))) * 255)
-          .toString(16)
-          .padStart(2, '0')
-      )
-      .join('')
-  )
-}
-
-// Oklab mix from first (0) to second (1)
-export function mix(first: string, second: string, amount: number) {
-  const start = hexToOklch(first)
-  const end = hexToOklch(second)
-  const toLab = ([lightness, chroma, hue]: Point3) => [lightness, chroma * Math.cos(hue), chroma * Math.sin(hue)]
-  const endLab = toLab(end)
-  const [lightness, greenRed, blueYellow] = toLab(start).map((low, i) => low + (endLab[i] - low) * amount)
-  return oklchToHex(lightness, Math.hypot(greenRed, blueYellow), Math.atan2(blueYellow, greenRed))
-}
-
-// Left-face lightness: very dark picks lift to a visible gray and very light picks stay off paper white
-function knee(lightness: number) {
-  if (lightness < 0.45) return 0.42 + (lightness * 0.03) / 0.45
-  if (lightness <= 0.88) return lightness
-  return 0.88 + ((lightness - 0.88) * 0.02) / 0.12
-}
-
-function tones(color: string): Record<Tone, string> {
-  const [lightness, chroma, hue] = hexToOklch(color)
-  const base = knee(lightness)
-  return {
-    top: oklchToHex(base + 0.08, chroma, hue),
-    left: oklchToHex(base, chroma, hue),
-    right: oklchToHex(base - 0.1, chroma, hue),
-    interior: oklchToHex(base - 0.18, chroma, hue),
-    deep: oklchToHex(Math.max(base - 0.32, 0.22), chroma, hue),
-    line: oklchToHex(Math.max(base - 0.34, 0.2), chroma, hue),
-  }
-}
+// Tinted lines, never whitened
+const LINE = `max(${KNEE} - 0.34, 0.2)`
 
 const COLORLESS = { top: '#e4f1f6', left: '#cedee5', right: '#b7cbd4', interior: '#a1b5bd', deep: '#7d9199' }
 
-// Face tones for a part, how much of the inside shows through (see), and the rim band tone
-export function palette(part: Part): Palette {
-  // Only a clear part can leave out its color
-  if (!part.color) return { ...COLORLESS, line: tones(COLORLESS.left).line, see: 0.5, rim: '#a1b5bd' }
-  const base = tones(part.color)
-  const whiten = part.finish === 'clear' ? 0.45 : part.finish === 'smoky' ? 0.1 : 0
-  // Lines stay at full strength on see-through parts
+// Face tones, how much of the inside shows through (see), and the rim tone
+export function palette({ color, finish }: Part): Palette {
+  if (!color) return { ...COLORLESS, line: shade(COLORLESS.left, LINE), see: 0.5, rim: COLORLESS.interior }
+  const whiten = finish === 'clear' ? 0.45 : finish === 'smoky' ? 0.1 : 0
   const faces = Object.fromEntries(
-    Object.entries(base).map(([tone, value]) => [tone, tone === 'line' ? value : mix(value, '#ffffff', whiten)])
-  )
+    Object.entries(LIGHTNESS).map(([tone, lightness]) => [
+      tone,
+      whiten ? mix(shade(color, lightness), '#ffffff', whiten) : shade(color, lightness),
+    ])
+  ) as Record<Tone, string>
   return {
-    ...(faces as Record<Tone, string>),
-    see: part.finish === 'clear' ? 0.5 : part.finish === 'smoky' ? 0.35 : 0,
-    rim: base.top,
+    ...faces,
+    line: shade(color, LINE),
+    see: finish === 'clear' ? 0.5 : finish === 'smoky' ? 0.35 : 0,
+    rim: shade(color, LIGHTNESS.top),
   }
 }
 
-// Geometry: x east, y north (the LED side), z up from the PCB, all in mm. The camera looks from the north-west.
-
+// x east, y north (the LED side), z up from the PCB, in mm
 export const project = ([x, y, z]: Point3): Point => [-0.8660254 * (x + y), 0.5 * (y - x) - z]
 const depth = ([x, y, z]: Point3) => -x + y + z
 
@@ -219,7 +141,7 @@ const flat = (points: Point[], z: number, fill: string): Face => ({
   fill,
 })
 
-// The bottom housing's west face, which tapers in near the bottom
+// The bottom housing's west face tapers in near the base
 function westX(z: number) {
   if (z >= 3.3) return -7.0
   if (z >= 1.1) return -(6.33 + (0.67 * (z - 1.1)) / 2.2)
@@ -237,8 +159,6 @@ const onNorth = (points: Point[], fill: string, y = 7.0): Face => ({
   points: points.map(([x, z]) => project([x, y, z])),
   fill,
 })
-
-// Parts
 
 export function bottomHousing(data: Switch): Face[] {
   const bottom = palette(data.bottom)
@@ -309,7 +229,7 @@ export function bottomHousing(data: Switch): Face[] {
     }
   )
 
-  // Flange at the plate line, drawn as one continuous ledge with a notch around the plate clip
+  // Flange at the plate line, notched around the plate clip
   const radius = 0.9
   const flange: Point[] = [
     ...arc(7.8 - radius, 7.8 - radius, radius, 0, 90),
@@ -335,7 +255,7 @@ export function bottomHousing(data: Switch): Face[] {
     )
   )
 
-  // The latch panels are legs of the top housing, so they take its color
+  // Latch panels are legs of the top housing
   faces.push(onWest(3.3, 5.9, 1.5, 4.3, top.right), onWest(-5.9, -3.3, 1.5, 4.3, top.right))
   return faces
 }
@@ -345,7 +265,7 @@ const BACK = 3.95
 const SILL = 6.85
 const [TAN_NORTH, TAN_SIDE, TAN_SOUTH] = [34, 22, 15].map((angle) => Math.tan(angle * (Math.PI / 180)))
 
-// Top housing base outline at height z (6.0 to 7.4), optionally with the LED notch cut into the north edge
+// Top housing base outline at z (6.0 to 7.4), optionally notched for the LED
 function slabRing(z: number, notch: boolean): Ring {
   const halfX = 7.33 - (z - 6.0) * TAN_SIDE
   const north = 7.33 - (z - 6.0) * TAN_NORTH
@@ -355,7 +275,7 @@ function slabRing(z: number, notch: boolean): Ring {
   return [ring, z]
 }
 
-// Top housing above the corner pockets: a plus shape of a north-south and an east-west band
+// Top housing above the corner pockets, a plus shape
 function towerRing(z: number, notch: boolean): Ring {
   const halfX = 6.764 - ((6.764 - 5.0) * (z - 7.4)) / 3.6
   const north = 7.33 - (z - 6.0) * TAN_NORTH
@@ -400,12 +320,12 @@ export function topHousing(data: Switch, hole: Point[]) {
   const notch = data.top.led !== 'diffuser'
   let faces: Face[]
   if (notch) {
-    // Base below the sill, the sill's full-width light slot, then the notched base above the sill
+    // Base, the sill's light slot, then the notched base above the sill
     faces = [
       ...solid([slabRing(6.0, false), slabRing(SILL, false)], colors),
       flat(rect(-NOTCH, NOTCH, 4.85, 5.85), SILL, colors.deep),
       ...solid([slabRing(SILL, true), slabRing(7.4, true)], colors, { 6: 'interior', 7: 'interior' }),
-      // Edges 3 and 4 are the notch's east side wall and back wall
+      // Edges 3 and 4 are the notch walls
       ...solid([towerRing(7.4, true), towerRing(11.0, true)], colors, { 3: 'interior', 4: 'interior' }),
     ]
   } else {
@@ -429,7 +349,7 @@ export function topHousing(data: Switch, hole: Point[]) {
 
   let diffuser
   if (!notch) {
-    // A frosted panel set back into a window in the upper half of the LED face
+    // Frosted panel recessed into the upper LED face
     const corners = (
       [
         [-4.25, 8.0],
@@ -450,7 +370,7 @@ export function topHousing(data: Switch, hole: Point[]) {
   return { faces, outline, glint, diffuser }
 }
 
-// A stem's faces, the faces seen through its openings (clipped to them), and faces drawn in front of those
+// Faces, faces seen through openings (clipped to them), and faces drawn over those
 type Stem = { faces: Face[]; clipped: [Point[][], Face[]][]; front: Face[] }
 
 const STEM_CROSS = cross(2.0, 0.65, 0.55)
@@ -572,7 +492,7 @@ export const STEMS: Record<NonNullable<Switch['stem']['style']>, { hole: Point[]
           colors
         ),
       ]
-      // The west wall is in front of the cross, so it's drawn after the clipped inside
+      // The west wall sits in front of the cross
       return {
         faces,
         clipped: [[[topOpening.points, slot], inside]],
