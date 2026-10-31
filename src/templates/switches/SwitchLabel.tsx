@@ -67,7 +67,7 @@ export function SwitchLabel({ data }: { data: Switch }) {
           <Material part={data.bottom} />
         </div>
       </div>
-      <div className="aspect-square h-full shrink-0 py-0.25">
+      <div className="aspect-square h-full shrink-0 py-px">
         <SwitchIcon data={data} lines={LINES} />
       </div>
     </div>
