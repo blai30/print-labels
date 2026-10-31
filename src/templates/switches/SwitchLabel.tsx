@@ -7,7 +7,7 @@ import type { Part, Switch } from './types.ts'
 
 const LINES: LineStyle = 'black'
 
-const Missing = () => <span className="text-zinc-400">?</span>
+const Missing = () => <span className="text-zinc-500">?</span>
 
 const shown = (value: number | undefined, digits?: number) =>
   value === undefined ? <Missing /> : digits === undefined ? value : value.toFixed(digits)
@@ -20,13 +20,6 @@ function Spec({ icon: Icon, children }: { icon: LucideIcon; children: ReactNode 
     </div>
   )
 }
-
-// Right-aligned so the units line up
-const Travel = ({ value }: { value: number | undefined }) => (
-  <>
-    <span className="inline-block w-[3ch] text-right">{shown(value, 1)}</span> mm
-  </>
-)
 
 function Material({ part }: { part: Part }) {
   return (
@@ -44,26 +37,26 @@ export function SwitchLabel({ data }: { data: Switch }) {
   return (
     <div className="flex h-24 w-63 gap-2.75 overflow-hidden bg-white px-3.25 py-2 font-sans font-features-['ss05'] text-zinc-900">
       <div className="flex min-w-0 flex-1 flex-col whitespace-nowrap">
-        <div className="mb-0.5 text-[6pt]/2.25 text-zinc-500">{data.brand}</div>
-        <div className="text-[11pt]/4.25 font-semibold">{data.name}</div>
+        <div className="mb-0.5 text-[5.25pt]/2.25 tracking-wider text-zinc-600 uppercase">{data.brand}</div>
+        <div className="text-[11pt]/4.25 font-semibold tracking-tight">{data.name}</div>
         <div className="mt-0.5 text-[7.5pt]/3 font-medium capitalize">
           {data.type}
-          {data.silent && ' · Silent'}
+          {data.silent && (
+            <span className="ml-1.25 inline-block rounded-xs px-0.5 py-px align-[0.1em] text-[5pt]/none font-semibold tracking-wide text-zinc-800 uppercase inset-ring-[0.2mm]">
+              Silent
+            </span>
+          )}
         </div>
-        <div className="mt-auto grid h-8 grid-cols-[--spacing(16)_auto] grid-rows-3 gap-x-2.25 font-mono font-features-['ss09'] text-[6pt]/none">
+        <div className="mt-auto grid h-8 grid-cols-[--spacing(14)_auto] grid-rows-3 gap-x-2.25 text-[6pt]/none tabular-nums">
           <Spec icon={Weight}>
             {/* Actuation to bottom-out */}
             {data.actuation !== undefined && <>{data.actuation}–</>}
             {shown(data.bottomOut)} g
           </Spec>
           <Material part={data.stem} />
-          <Spec icon={MoveDown}>
-            <Travel value={data.preTravel} />
-          </Spec>
+          <Spec icon={MoveDown}>{shown(data.preTravel, 1)} mm</Spec>
           <Material part={data.top} />
-          <Spec icon={MoveVertical}>
-            <Travel value={data.travel} />
-          </Spec>
+          <Spec icon={MoveVertical}>{shown(data.travel, 1)} mm</Spec>
           <Material part={data.bottom} />
         </div>
       </div>
