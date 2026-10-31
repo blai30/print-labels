@@ -1,0 +1,31 @@
+{
+  "name": "Strawberry Milk",
+  "brand": "Dangkeebs",
+  "vendor": "QiboardStore",
+  "type": "linear",
+  "actuation": 55,
+  "bottomOut": 67,
+  "preTravel": 1.9,
+  "travel": 3.5,
+  "spring": "single-stage",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#f7f7f7",
+    "finish": "opaque",
+    "material": "Nylon",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#f2f0ec",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#eac5c4",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "POM"
+  },
+  "notes": "Measured by bluepylons on a Dangkeebs V1 (1.925 mm); Dangkeebs doesn't publish pre-travel. Hand-lubed by the seller after cleaning off the factory lube: Krytox 205g0 on the switches, Krytox 105 on the springs."
+}

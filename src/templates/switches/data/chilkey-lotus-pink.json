@@ -1,0 +1,30 @@
+{
+  "name": "Lotus Pink",
+  "brand": "Chilkey",
+  "vendor": "mech.land",
+  "type": "linear",
+  "actuation": 50,
+  "bottomOut": 60,
+  "preTravel": 2,
+  "travel": 3.5,
+  "spring": "18 mm two-stage",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#f1d8d9",
+    "finish": "opaque",
+    "material": "POM",
+    "led": "diffuser"
+  },
+  "bottom": {
+    "color": "#eed9da",
+    "finish": "opaque",
+    "material": "POM"
+  },
+  "stem": {
+    "color": "#e2dee6",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "UPE"
+  }
+}

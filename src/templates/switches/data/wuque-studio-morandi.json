@@ -1,0 +1,29 @@
+{
+  "name": "Morandi",
+  "brand": "Wuque Studio",
+  "type": "linear",
+  "actuation": 50,
+  "bottomOut": 60,
+  "preTravel": 2,
+  "travel": 3.5,
+  "spring": "18 mm two-stage",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#fafafa",
+    "finish": "opaque",
+    "material": "POM",
+    "led": "diffuser"
+  },
+  "bottom": {
+    "color": "#fafafa",
+    "finish": "opaque",
+    "material": "POM"
+  },
+  "stem": {
+    "color": "#e3dbea",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "UPE"
+  }
+}

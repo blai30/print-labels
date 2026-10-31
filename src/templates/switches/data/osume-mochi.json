@@ -1,0 +1,26 @@
+{
+  "name": "Mochi",
+  "brand": "osume",
+  "type": "linear",
+  "actuation": 50,
+  "bottomOut": 58,
+  "travel": 3.6,
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "finish": "clear",
+    "material": "PC",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#ededed",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#beb6d1",
+    "finish": "opaque",
+    "style": "wall",
+    "material": "POM"
+  }
+}

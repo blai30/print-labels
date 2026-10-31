@@ -1,0 +1,31 @@
+{
+  "name": "Blush",
+  "brand": "Aflion",
+  "vendor": "Dangkeebs",
+  "type": "linear",
+  "actuation": 55,
+  "bottomOut": 58,
+  "preTravel": 2.3,
+  "travel": 3.3,
+  "spring": "20 mm two-stage",
+  "pins": 5,
+  "lubed": false,
+  "top": {
+    "color": "#deafab",
+    "finish": "opaque",
+    "material": "PC",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#ca6f80",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#debbb4",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "POM"
+  },
+  "notes": "Actuation and pre-travel from the factory tester sheet in the group buy thread (12/3/22 update)"
+}

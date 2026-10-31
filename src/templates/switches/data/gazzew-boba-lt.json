@@ -1,0 +1,26 @@
+{
+  "name": "Boba LT",
+  "brand": "Gazzew",
+  "type": "linear",
+  "bottomOut": 65,
+  "travel": 3.2,
+  "pins": 5,
+  "top": {
+    "color": "#dac0e1",
+    "finish": "opaque",
+    "material": "Blend",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#dfc9e1",
+    "finish": "opaque",
+    "material": "Blend"
+  },
+  "stem": {
+    "color": "#7024af",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "POM"
+  },
+  "notes": "Gazzew's undisclosed \"Boba plastic\" blend"
+}

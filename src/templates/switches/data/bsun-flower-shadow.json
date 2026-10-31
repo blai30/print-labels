@@ -1,0 +1,30 @@
+{
+  "name": "Flower Shadow",
+  "brand": "BSUN",
+  "vendor": "NLandKeys",
+  "type": "linear",
+  "actuation": 37,
+  "bottomOut": 50,
+  "preTravel": 2,
+  "travel": 3.1,
+  "spring": "two-stage",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#ead1c8",
+    "finish": "opaque",
+    "material": "LY",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#ead1c8",
+    "finish": "opaque",
+    "material": "LY"
+  },
+  "stem": {
+    "color": "#e0dfe3",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "LY"
+  }
+}

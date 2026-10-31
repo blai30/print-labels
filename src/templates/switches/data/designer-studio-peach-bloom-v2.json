@@ -1,0 +1,30 @@
+{
+  "name": "Peach Bloom V2",
+  "brand": "Designer Studio",
+  "vendor": "mech.land",
+  "type": "linear",
+  "actuation": 48,
+  "bottomOut": 63.5,
+  "preTravel": 2,
+  "travel": 3.8,
+  "spring": "18 mm",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#ddb3bf",
+    "finish": "opaque",
+    "material": "Nylon",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#e195b5",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#dfc3cb",
+    "finish": "milky",
+    "style": "mx",
+    "material": "G1"
+  }
+}

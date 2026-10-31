@@ -1,0 +1,29 @@
+{
+  "name": "Aqua King",
+  "brand": "Everglide",
+  "type": "linear",
+  "actuation": 46,
+  "bottomOut": 62,
+  "preTravel": 2,
+  "travel": 4,
+  "spring": "single-stage",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#f7ecd1",
+    "finish": "clear",
+    "material": "PC",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#f7ecd1",
+    "finish": "clear",
+    "material": "PC"
+  },
+  "stem": {
+    "color": "#f9f2df",
+    "finish": "clear",
+    "style": "mx",
+    "material": "PC"
+  }
+}

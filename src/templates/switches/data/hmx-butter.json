@@ -1,0 +1,29 @@
+{
+  "name": "Butter",
+  "brand": "HMX",
+  "vendor": "Kinetic Labs",
+  "type": "linear",
+  "actuation": 57,
+  "bottomOut": 63.5,
+  "preTravel": 2,
+  "travel": 3.8,
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#f8eec8",
+    "finish": "opaque",
+    "material": "Nylon",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#f8eec8",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#ffd95b",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "POM"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Alpaca V2",
+  "brand": "PrimeKB",
+  "vendor": "Custom Keyboard Co.",
+  "type": "linear",
+  "actuation": 41,
+  "bottomOut": 62,
+  "preTravel": 1.8,
+  "travel": 3.9,
+  "spring": "single-stage",
+  "pins": 5,
+  "lubed": true,
+  "filmed": true,
+  "top": {
+    "color": "#3b3c41",
+    "finish": "opaque",
+    "material": "PC",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#555350",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#ddbab6",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "POM"
+  },
+  "notes": "Lubed and filmed by the vendor with Krytox 205g0, Krytox 105, and Durock switch films."
+}

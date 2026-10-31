@@ -1,0 +1,31 @@
+{
+  "name": "Ram",
+  "brand": "G-Square",
+  "vendor": "zFrontier",
+  "type": "linear",
+  "silent": true,
+  "actuation": 48,
+  "bottomOut": 60,
+  "preTravel": 2,
+  "travel": 3.8,
+  "spring": "22 mm two-stage",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#e5b3c3",
+    "finish": "opaque",
+    "material": "Nylon",
+    "led": "diffuser"
+  },
+  "bottom": {
+    "color": "#deb4c2",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#eaeaf2",
+    "finish": "milky",
+    "style": "wall",
+    "material": "POM"
+  }
+}

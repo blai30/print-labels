@@ -1,0 +1,29 @@
+{
+  "name": "Lynx",
+  "brand": "Glorious",
+  "type": "linear",
+  "actuation": 43,
+  "bottomOut": 60,
+  "preTravel": 2.1,
+  "travel": 3.9,
+  "spring": "single-stage",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#a2dedf",
+    "finish": "opaque",
+    "material": "PC",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#a1dbdb",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#e4e5e4",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "POM"
+  }
+}
