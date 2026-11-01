@@ -2,8 +2,8 @@ import { Tags } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 const PAGES = {
-  labels: { title: 'Labels', href: '/' },
-  icon: { title: 'Switch icon', href: '/icon' },
+  labels: { title: 'Labels', href: import.meta.env.BASE_URL },
+  icon: { title: 'Switch icon', href: `${import.meta.env.BASE_URL}icon/` },
 }
 
 type Page = keyof typeof PAGES
@@ -11,7 +11,10 @@ type Page = keyof typeof PAGES
 export function Navbar({ current, children }: { current: Page; children?: ReactNode }) {
   return (
     <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-4 border-b border-zinc-800 bg-zinc-900/85 px-4 backdrop-blur-md sm:gap-6 sm:px-6">
-      <a href="/" className="flex items-center gap-2.5 rounded-md outline-zinc-100 focus-visible:outline-2">
+      <a
+        href={import.meta.env.BASE_URL}
+        className="flex items-center gap-2.5 rounded-md outline-zinc-100 focus-visible:outline-2"
+      >
         <span className="grid size-7 place-items-center rounded-md bg-zinc-100 text-zinc-900">
           <Tags className="size-4" strokeWidth={2.25} />
         </span>

@@ -18,7 +18,7 @@ export function App() {
       </div>
     )
   }
-  return location.pathname === '/icon' ? <IconPreviewer /> : <Preview />
+  return location.pathname.startsWith(`${import.meta.env.BASE_URL}icon`) ? <IconPreviewer /> : <Preview />
 }
 
 function Preview() {
