@@ -27,6 +27,8 @@ Run `pnpm dev` and edit a template's label component. Click a label's name in th
 
 The export starts its own Vite server and prints each label with Playwright's Chromium headless shell. Each PDF is the size of the label's root element. `exports/<template>/labels.csv` lists the PDFs from the last run for data merge.
 
+Use static font files, not variable ones. Chromium embeds variable fonts in PDFs as Type3 outlines, and Affinity flags those as missing fonts. Geist is in `src/assets/fonts/` as the official static builds (Regular, Medium, SemiBold). Add the weight's file from [vercel/geist-font](https://github.com/vercel/geist-font/tree/main/fonts/Geist/webfonts) if a label needs another one.
+
 ## Templates
 
 Each template is a folder in `src/templates/` with an `index.ts` that returns its title and one label per item. Add it to `src/templates.ts` to show it in the workbench and the export.
