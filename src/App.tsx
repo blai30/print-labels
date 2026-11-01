@@ -1,6 +1,8 @@
 import { useState } from 'react'
 
+import { Navbar } from './Navbar.tsx'
 import { templates } from './templates.ts'
+import { IconPreviewer } from './templates/switches/IconPreviewer.tsx'
 
 const ZOOMS = [1, 2, 3, 4]
 
@@ -16,30 +18,33 @@ export function App() {
       </div>
     )
   }
-  return <Preview />
+  return location.pathname === '/icon' ? <IconPreviewer /> : <Preview />
 }
 
 function Preview() {
   const [zoom, setZoom] = useState(3)
   return (
-    <div className="min-h-screen bg-zinc-900 font-sans text-zinc-100">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-zinc-800 bg-zinc-900/90 px-8 py-4 backdrop-blur-sm">
-        <h1 className="text-lg font-semibold tracking-tight">Print labels</h1>
-        <div className="flex items-center gap-1 rounded-lg bg-zinc-800 p-1 text-sm" role="group" aria-label="Zoom">
+    <div className="min-h-dvh bg-zinc-900 font-sans text-zinc-100">
+      <Navbar current="labels">
+        <div
+          className="flex items-center gap-0.5 rounded-lg bg-zinc-800/80 p-0.5 text-xs"
+          role="group"
+          aria-label="Zoom"
+        >
           {ZOOMS.map((level) => (
             <button
               key={level}
               type="button"
               onClick={() => setZoom(level)}
               aria-pressed={level === zoom}
-              className="rounded-md px-3 py-1 text-zinc-400 tabular-nums transition-colors hover:text-zinc-100 aria-pressed:bg-zinc-100 aria-pressed:text-zinc-900"
+              className="h-7 rounded-md px-2 text-zinc-400 tabular-nums outline-zinc-100 transition-colors hover:text-zinc-100 focus-visible:outline-2 aria-pressed:bg-zinc-100 aria-pressed:font-medium aria-pressed:text-zinc-900 sm:px-2.5"
             >
               {level}x
             </button>
           ))}
         </div>
-      </header>
-      <main className="flex flex-col gap-12 px-8 py-10">
+      </Navbar>
+      <main className="flex flex-col gap-12 px-4 py-10 sm:px-6">
         {Object.entries(templates).map(([name, { title, labels }]) => (
           <section key={name}>
             <h2 className="mb-6 text-sm font-medium text-zinc-400">

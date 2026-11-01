@@ -60,7 +60,6 @@ function Seam({ faces, colors, lines }: { faces: Face[]; colors: Palette; lines:
   return null
 }
 
-// Draws children only inside the shapes
 function Clip({ id, shapes, children }: { id: string; shapes: Point[][]; children: ReactNode }) {
   return (
     <>
