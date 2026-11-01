@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { type ReactNode, useId } from 'react'
 
 import {
   bottomHousing,
@@ -7,7 +7,6 @@ import {
   palette,
   type Palette,
   type Point,
-  project,
   rect,
   solid,
   STEMS,
@@ -61,12 +60,26 @@ function Seam({ faces, colors, lines }: { faces: Face[]; colors: Palette; lines:
   return null
 }
 
+// Draws children only inside the shapes
+function Clip({ id, shapes, children }: { id: string; shapes: Point[][]; children: ReactNode }) {
+  return (
+    <>
+      <clipPath id={id}>
+        {shapes.map((points, index) => (
+          <path key={index} d={path(points)} />
+        ))}
+      </clipPath>
+      <g clipPath={`url(#${id})`}>{children}</g>
+    </>
+  )
+}
+
 export function SwitchIcon({ data, lines }: { data: Switch; lines: LineStyle }) {
   const id = useId()
   const bottom = palette(data.bottom)
   const top = palette(data.top)
   const stemColors = palette(data.stem)
-  const bottomFaces = bottomHousing(data)
+  const base = bottomHousing(data)
   const stemStyle = STEMS[data.stem.style ?? 'mx']
   const housing = topHousing(data, stemStyle.hole)
   const stem = stemStyle.draw(stemColors)
@@ -79,28 +92,20 @@ export function SwitchIcon({ data, lines }: { data: Switch; lines: LineStyle }) 
     ],
     stemColors
   )
-  const bottomGlint = (
-    [
-      [-0.35, 1.2],
-      [0.35, 1.2],
-      [0.35, 4.3],
-      [-0.35, 4.3],
-    ] as Point[]
-  ).map(([offset, z]) => project([5.5 + offset, 7.0, z]))
 
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox={VIEW_BOX} className="block size-full">
       {/* Black lines add a silhouette behind everything; each part's seam goes behind its own faces */}
       {lines === 'black' && (
         <Outline
-          faces={[...bottomFaces, ...housing.faces, ...stem.faces, ...stem.front]}
+          faces={[...base.faces, ...housing.faces, ...stem.faces, ...stem.front]}
           color={LINE}
           width={SILHOUETTE}
         />
       )}
-      <Seam faces={bottomFaces} colors={bottom} lines={lines} />
-      <Faces faces={bottomFaces} />
-      {bottom.see > 0 && <path d={path(bottomGlint)} fill="#ffffff" />}
+      <Seam faces={base.faces} colors={bottom} lines={lines} />
+      <Faces faces={base.faces} />
+      {bottom.see > 0 && <path d={path(base.glint)} fill="#ffffff" />}
       <Seam faces={housing.faces} colors={top} lines={lines} />
       {top.see > 0 ? (
         <>
@@ -108,27 +113,16 @@ export function SwitchIcon({ data, lines }: { data: Switch; lines: LineStyle }) 
           {housing.faces.map((face, index) => (
             <g key={index}>
               <Faces faces={[face]} />
-              <clipPath id={`${id}-see-${index}`}>
-                <path d={path(face.points)} />
-              </clipPath>
-              <g clipPath={`url(#${id}-see-${index})`}>
+              <Clip id={`${id}-see-${index}`} shapes={[face.points]}>
                 <Faces
                   faces={stemBody.map((part) => ({ points: part.points, fill: mix(face.fill, part.fill, top.see) }))}
                 />
-              </g>
+              </Clip>
             </g>
           ))}
-          <clipPath id={`${id}-rim`}>
-            <path d={path(housing.outline)} />
-          </clipPath>
-          <path
-            d={path(housing.outline)}
-            fill="none"
-            stroke={top.rim}
-            strokeWidth={1.4}
-            strokeLinejoin="round"
-            clipPath={`url(#${id}-rim)`}
-          />
+          <Clip id={`${id}-rim`} shapes={[housing.outline]}>
+            <path d={path(housing.outline)} fill="none" stroke={top.rim} strokeWidth={1.4} strokeLinejoin="round" />
+          </Clip>
           <path d={path(housing.glint)} fill="#ffffff" />
         </>
       ) : (
@@ -136,9 +130,6 @@ export function SwitchIcon({ data, lines }: { data: Switch; lines: LineStyle }) 
       )}
       {housing.diffuser && (
         <>
-          <clipPath id={`${id}-diffuser`}>
-            <path d={path(housing.diffuser.window)} />
-          </clipPath>
           <pattern
             id={`${id}-texture`}
             width={0.9}
@@ -149,25 +140,18 @@ export function SwitchIcon({ data, lines }: { data: Switch; lines: LineStyle }) 
             <path d="M0,0 L0.9,0 M0,0 L0,0.9" stroke={housing.diffuser.texture} strokeWidth={0.16} />
           </pattern>
           <path d={path(housing.diffuser.window)} fill={housing.diffuser.recess} />
-          <g clipPath={`url(#${id}-diffuser)`}>
+          <Clip id={`${id}-diffuser`} shapes={[housing.diffuser.window]}>
             <path d={path(housing.diffuser.panel)} fill={housing.diffuser.frost} />
             <path d={path(housing.diffuser.panel)} fill={`url(#${id}-texture)`} />
-          </g>
+          </Clip>
         </>
       )}
       <Seam faces={[...stem.faces, ...stem.front]} colors={stemColors} lines={lines} />
       <Faces faces={stem.faces} />
-      {stem.clipped.map(([clips, inside], index) => (
-        <g key={index}>
-          <clipPath id={`${id}-stem-${index}`}>
-            {clips.map((points, clip) => (
-              <path key={clip} d={path(points)} />
-            ))}
-          </clipPath>
-          <g clipPath={`url(#${id}-stem-${index})`}>
-            <Faces faces={inside} />
-          </g>
-        </g>
+      {stem.clipped.map(([shapes, inside], index) => (
+        <Clip key={index} id={`${id}-stem-${index}`} shapes={shapes}>
+          <Faces faces={inside} />
+        </Clip>
       ))}
       <Faces faces={stem.front} />
     </svg>

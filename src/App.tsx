@@ -18,10 +18,10 @@ export function App() {
       </div>
     )
   }
-  return <Workbench />
+  return <Preview />
 }
 
-function Workbench() {
+function Preview() {
   const [zoom, setZoom] = useState(3)
   return (
     <div className="min-h-screen bg-zinc-900 font-sans text-zinc-100">

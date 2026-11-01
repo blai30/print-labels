@@ -160,7 +160,7 @@ const onNorth = (points: Point[], fill: string, y = 7.0): Face => ({
   fill,
 })
 
-export function bottomHousing(data: Switch): Face[] {
+export function bottomHousing(data: Switch) {
   const bottom = palette(data.bottom)
   const top = palette(data.top)
   const faces = solid(
@@ -257,7 +257,9 @@ export function bottomHousing(data: Switch): Face[] {
 
   // Latch panels are legs of the top housing
   faces.push(onWest(3.3, 5.9, 1.5, 4.3, top.right), onWest(-5.9, -3.3, 1.5, 4.3, top.right))
-  return faces
+  // Glint on the north face, shown when the bottom housing is see-through
+  const glint = rect(5.15, 5.85, 1.2, 4.3).map(([x, z]) => project([x, 7.0, z]))
+  return { faces, glint }
 }
 
 const NOTCH = 4.4

@@ -2,15 +2,8 @@ import type { LucideIcon } from 'lucide-react'
 import { MoveDown, MoveVertical, Weight } from 'lucide-react'
 import type { ReactNode } from 'react'
 
-import { type LineStyle, SwitchIcon } from './SwitchIcon.tsx'
+import { SwitchIcon } from './SwitchIcon.tsx'
 import type { Part, Switch } from './types.ts'
-
-const LINES: LineStyle = 'black'
-
-const Missing = () => <span className="text-zinc-500">?</span>
-
-const shown = (value: number | undefined, digits?: number) =>
-  value === undefined ? <Missing /> : digits === undefined ? value : value.toFixed(digits)
 
 function Spec({ icon: Icon, children }: { icon: LucideIcon; children: ReactNode }) {
   return (
@@ -27,7 +20,7 @@ function Material({ part }: { part: Part }) {
       <svg viewBox="0 0 1 1" className="size-1.5 shrink-0 rounded-[0.3mm] ring-[0.15mm] ring-black/60">
         <rect width={1} height={1} fill={part.color ?? '#ffffff'} />
       </svg>
-      <span>{part.material ?? <Missing />}</span>
+      <span>{part.material ?? <span className="text-zinc-500">?</span>}</span>
     </div>
   )
 }
@@ -51,17 +44,17 @@ export function SwitchLabel({ data }: { data: Switch }) {
           <Spec icon={Weight}>
             {/* Actuation to bottom-out */}
             {data.actuation !== undefined && <>{data.actuation}–</>}
-            {shown(data.bottomOut)} g
+            {data.bottomOut ?? <span className="text-zinc-500">?</span>} g
           </Spec>
           <Material part={data.stem} />
-          <Spec icon={MoveDown}>{shown(data.preTravel, 1)} mm</Spec>
+          <Spec icon={MoveDown}>{data.preTravel?.toFixed(1) ?? <span className="text-zinc-500">?</span>} mm</Spec>
           <Material part={data.top} />
-          <Spec icon={MoveVertical}>{shown(data.travel, 1)} mm</Spec>
+          <Spec icon={MoveVertical}>{data.travel?.toFixed(1) ?? <span className="text-zinc-500">?</span>} mm</Spec>
           <Material part={data.bottom} />
         </div>
       </div>
       <div className="aspect-square h-full shrink-0 py-px">
-        <SwitchIcon data={data} lines={LINES} />
+        <SwitchIcon data={data} lines="black" />
       </div>
     </div>
   )
