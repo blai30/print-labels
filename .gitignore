@@ -25,3 +25,5 @@ dist-ssr
 
 # Label PDFs
 exports
+
+*.af~lock~
