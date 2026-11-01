@@ -36,7 +36,7 @@ export function SwitchLabel({ data }: { data: Switch }) {
         <div className="mt-0.5 text-[7.5pt]/3 font-medium capitalize">
           {data.type}
           {data.silent && (
-            <span className="ml-1.25 inline-block rounded-xs px-0.5 py-px align-[0.1em] text-[5pt]/none font-semibold tracking-wide text-zinc-800 uppercase inset-ring-1">
+            <span className="ml-1.25 inline-block rounded-xs px-0.75 py-0.5 text-[5pt]/none font-semibold tracking-wide text-zinc-800 uppercase inset-ring-[0.15mm] [text-box:trim-both_cap_alphabetic]">
               Silent
             </span>
           )}
