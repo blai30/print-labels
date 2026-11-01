@@ -17,9 +17,10 @@ function Spec({ icon: Icon, children }: { icon: LucideIcon; children: ReactNode 
 function Material({ part }: { part: Part }) {
   return (
     <div className="flex items-center gap-1.25">
-      <svg viewBox="0 0 1 1" className="size-1.5 shrink-0 rounded-[0.3mm] ring-[0.15mm] ring-black/60">
-        <rect width={1} height={1} fill={part.color ?? '#ffffff'} />
-      </svg>
+      <div
+        className="size-1.5 shrink-0 rounded-[1px] bg-white ring-[0.15mm] ring-black/60"
+        style={{ backgroundColor: part.color }}
+      />
       <span>{part.material ?? <span className="text-zinc-500">?</span>}</span>
     </div>
   )
@@ -35,7 +36,7 @@ export function SwitchLabel({ data }: { data: Switch }) {
         <div className="mt-0.5 text-[7.5pt]/3 font-medium capitalize">
           {data.type}
           {data.silent && (
-            <span className="ml-1.25 inline-block rounded-xs px-0.5 py-px align-[0.1em] text-[5pt]/none font-semibold tracking-wide text-zinc-800 uppercase inset-ring-[0.2mm]">
+            <span className="ml-1.25 inline-block rounded-xs px-0.5 py-px align-[0.1em] text-[5pt]/none font-semibold tracking-wide text-zinc-800 uppercase inset-ring-1">
               Silent
             </span>
           )}
