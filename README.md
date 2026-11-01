@@ -4,26 +4,26 @@ Designs printable labels in the browser and exports each as its own vector PDF. 
 
 ## Setup
 
-Needs Node.js 26+.
+Needs Node.js 26+ and pnpm.
 
-1. Run `npm install`.
-2. Run `npx playwright install chromium --only-shell` (the headless browser the export prints with).
+1. Run `pnpm install`.
+2. Run `pnpm exec playwright install chromium --only-shell` (the headless browser the export prints with).
 
 ## Commands
 
 ```
-npm run dev                                 # workbench with every template's labels, hot reloaded
-npm run export                              # every label as a PDF into exports/<template>/
-npm run export -- switches                  # one template
-npm run export -- switches hmx-butter       # just these labels
-npm run build                               # type check and build
-npm run lint                                # oxlint
-npm run fmt                                 # oxfmt (npm run fmt:check to only check)
+pnpm dev                        # workbench with every template's labels, hot reloaded
+pnpm export                     # every label as a PDF into exports/<template>/
+pnpm export switches            # one template
+pnpm export switches hmx-butter # just these labels
+pnpm build                      # type check and build
+pnpm lint                       # oxlint
+pnpm fmt                        # oxfmt (pnpm fmt:check to only check)
 ```
 
 ## Designing labels
 
-Run `npm run dev` and edit a template's label component. Click a label's name in the workbench to open it alone at print size, the same page the export prints.
+Run `pnpm dev` and edit a template's label component. Click a label's name in the workbench to open it alone at print size, the same page the export prints.
 
 The export starts its own Vite server and prints each label with Playwright's Chromium headless shell. Each PDF is the size of the label's root element. `exports/<template>/labels.csv` lists the PDFs from the last run for data merge.
 

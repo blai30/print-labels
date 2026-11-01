@@ -1,10 +1,8 @@
-import clsx from 'clsx/lite'
 import { useState } from 'react'
 
 import { templates } from './templates.ts'
 
-// Workbench zoom levels, 1x to 4x
-const ZOOMS = ['zoom-100', 'zoom-200', 'zoom-300', 'zoom-400']
+const ZOOMS = [1, 2, 3, 4]
 
 export function App() {
   // ?template=<name>&label=<item> shows just that label at print size, for scripts/export.ts
@@ -28,18 +26,15 @@ function Preview() {
       <header className="sticky top-0 z-10 flex items-center justify-between border-b border-zinc-800 bg-zinc-900/90 px-8 py-4 backdrop-blur-sm">
         <h1 className="text-lg font-semibold tracking-tight">Print labels</h1>
         <div className="flex items-center gap-1 rounded-lg bg-zinc-800 p-1 text-sm" role="group" aria-label="Zoom">
-          {ZOOMS.map((_, index) => (
+          {ZOOMS.map((level) => (
             <button
-              key={index}
+              key={level}
               type="button"
-              onClick={() => setZoom(index + 1)}
-              aria-pressed={index + 1 === zoom}
-              className={clsx(
-                'rounded-md px-3 py-1 tabular-nums transition-colors',
-                index + 1 === zoom ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-400 hover:text-zinc-100'
-              )}
+              onClick={() => setZoom(level)}
+              aria-pressed={level === zoom}
+              className="rounded-md px-3 py-1 text-zinc-400 tabular-nums transition-colors hover:text-zinc-100 aria-pressed:bg-zinc-100 aria-pressed:text-zinc-900"
             >
-              {index + 1}x
+              {level}x
             </button>
           ))}
         </div>
@@ -53,7 +48,7 @@ function Preview() {
             <div className="flex flex-wrap gap-8">
               {Object.entries(labels).map(([item, element]) => (
                 <figure key={item} className="flex flex-col gap-2">
-                  <div className={clsx('w-fit shadow-lg ring-1 shadow-black/40 ring-black/20', ZOOMS[zoom - 1])}>
+                  <div className="w-fit shadow-lg ring-1 shadow-black/40 ring-black/20" style={{ zoom }}>
                     {element}
                   </div>
                   <figcaption>
