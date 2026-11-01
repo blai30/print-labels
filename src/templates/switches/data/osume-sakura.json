@@ -1,0 +1,27 @@
+{
+  "name": "Sakura",
+  "brand": "osume",
+  "type": "linear",
+  "actuation": 55,
+  "travel": 3.3,
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#f3e2da",
+    "finish": "opaque",
+    "material": "Nylon",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#f3e2da",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#7e66c0",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "LY"
+  },
+  "notes": "Long pole. Linear twin of Matcha. Osume doesn't publish bottom-out force. Colors sampled from Switch Oddities and Osume photos."
+}

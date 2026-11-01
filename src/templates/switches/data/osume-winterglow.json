@@ -1,0 +1,29 @@
+{
+  "name": "Winterglow",
+  "brand": "osume",
+  "type": "tactile",
+  "silent": true,
+  "actuation": 50,
+  "bottomOut": 58,
+  "travel": 3.5,
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#d8e2e4",
+    "finish": "opaque",
+    "material": "Nylon",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#d8e2e4",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#ebd5b5",
+    "finish": "opaque",
+    "style": "wall",
+    "material": "POM"
+  },
+  "notes": "Long pole. Stems come in beige and pink; this is beige. Switch Oddities thinks Haimu makes it. Colors sampled from Switch Oddities and Osume photos."
+}

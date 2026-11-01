@@ -1,0 +1,28 @@
+{
+  "name": "Night Market",
+  "brand": "osume",
+  "type": "tactile",
+  "actuation": 50,
+  "bottomOut": 58,
+  "travel": 3.6,
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#3a3d48",
+    "finish": "smoky",
+    "material": "PC",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#2a2c35",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#ea7688",
+    "finish": "opaque",
+    "style": "wall",
+    "material": "POM"
+  },
+  "notes": "Long pole. Tactile sibling of Mochi. Stems come in purple, yellow, orange, red, and pink; this is pink. Colors sampled from Switch Oddities and Osume photos."
+}

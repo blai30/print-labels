@@ -1,0 +1,27 @@
+{
+  "name": "Matcha",
+  "brand": "osume",
+  "type": "tactile",
+  "actuation": 55,
+  "travel": 3.3,
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#e8e9c8",
+    "finish": "opaque",
+    "material": "Nylon",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#e8e9c8",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#6f8c69",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "LY"
+  },
+  "notes": "Long pole. Osume doesn't publish bottom-out force. Switch Oddities thinks it's an older Bsun tactile. Colors sampled from Switch Oddities and Osume photos."
+}
