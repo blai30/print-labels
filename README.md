@@ -16,6 +16,7 @@ pnpm dev                        # workbench with every template's labels, hot re
 pnpm export                     # every label as a PDF into exports/<template>/
 pnpm export switches            # one template
 pnpm export switches hmx-butter # just these labels
+pnpm export --csv               # also write labels.csv for data merge
 pnpm build                      # type check and build
 pnpm lint                       # oxlint
 pnpm fmt                        # oxfmt (pnpm fmt:check to only check)
@@ -25,7 +26,7 @@ pnpm fmt                        # oxfmt (pnpm fmt:check to only check)
 
 Run `pnpm dev` and edit a template's label component. Click a label's name in the workbench to open it alone at print size, the same page the export prints.
 
-The export starts its own Vite server and prints each label with Playwright's Chromium headless shell. Each PDF is the size of the label's root element. `exports/<template>/labels.csv` lists the PDFs from the last run for data merge.
+The export starts its own Vite server and prints each label with Playwright's Chromium headless shell. Each PDF is the size of the label's root element. With `--csv`, `exports/<template>/labels.csv` lists the PDFs from the last run for data merge.
 
 Use static font files, not variable ones. Chromium embeds variable fonts in PDFs as Type3 outlines, and Affinity flags those as missing fonts. Geist is in `src/assets/fonts/` as the official static builds (Regular, Medium, SemiBold). Add the weight's file from [vercel/geist-font](https://github.com/vercel/geist-font/tree/main/fonts/Geist/webfonts) if a label needs another one.
 

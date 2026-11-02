@@ -1,6 +1,7 @@
-// Prints each label to exports/<template>/<label>.pdf, plus labels.csv for Affinity Data Merge. Usage in README.
+// Prints each label to exports/<template>/<label>.pdf, plus labels.csv for Affinity Data Merge with --csv. Usage in README.
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
+import { parseArgs } from 'node:util'
 
 import { chromium } from 'playwright'
 import { createServer } from 'vite'
@@ -12,7 +13,8 @@ try {
   const { templates } = (await server.ssrLoadModule('/src/templates.ts')) as {
     templates: Record<string, { labels: object }>
   }
-  const [only, ...items] = process.argv.slice(2)
+  const { values, positionals } = parseArgs({ options: { csv: { type: 'boolean' } }, allowPositionals: true })
+  const [only, ...items] = positionals
   const page = await browser.newPage()
   for (const name of only ? [only] : Object.keys(templates)) {
     const labels = items.length ? items : Object.keys(templates[name].labels).sort()
@@ -31,7 +33,9 @@ try {
       await page.pdf({ path: pdf, width: `${box.width}px`, height: `${box.height}px`, printBackground: true })
       pdfs.push(pdf)
     }
-    writeFileSync(table, ['label', ...pdfs].join('\n') + '\n')
+    if (values.csv) {
+      writeFileSync(table, ['label', ...pdfs].join('\n') + '\n')
+    }
     console.log(`${pdfs.length} label${pdfs.length === 1 ? '' : 's'} in ${folder}`)
   }
 } finally {
