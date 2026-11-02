@@ -1,0 +1,32 @@
+{
+  "name": "Rem",
+  "brand": "G-Square",
+  "vendor": "zFrontier",
+  "type": "tactile",
+  "silent": true,
+  "actuation": 47,
+  "bottomOut": 67,
+  "preTravel": 2,
+  "travel": 3.8,
+  "spring": "22 mm two-stage",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#93b8d9",
+    "finish": "opaque",
+    "material": "Nylon",
+    "led": "diffuser"
+  },
+  "bottom": {
+    "color": "#92b9dd",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#eaeaf2",
+    "finish": "milky",
+    "style": "wall",
+    "material": "POM"
+  },
+  "notes": "Silent Ver. (V1), not the non-silent Rem V2 from Grain Gold. Made by Haimu. Specs from the archived zFrontier listing; its force curve shows about 48g actuation and 60g bottom-out instead. Colors sampled from the zFrontier Ram and Rem photo."
+}

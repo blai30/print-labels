@@ -1,0 +1,30 @@
+{
+  "name": "White Jade",
+  "brand": "Designer Studio",
+  "type": "tactile",
+  "actuation": 50,
+  "bottomOut": 67,
+  "preTravel": 2,
+  "travel": 3.5,
+  "spring": "18 mm",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#e8e8ec",
+    "finish": "milky",
+    "material": "PC",
+    "led": "diffuser"
+  },
+  "bottom": {
+    "color": "#dcdce0",
+    "finish": "milky",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#eeedea",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "POM"
+  },
+  "notes": "Long pole. Made by JWK. Specs from mech.land and thocc.supply; Keebhut lists 4 mm travel and 1.5 mm actuation instead. LED style is a guess from photos. Colors sampled from mech.land photos."
+}

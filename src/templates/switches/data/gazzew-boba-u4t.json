@@ -1,0 +1,28 @@
+{
+  "name": "Boba U4T",
+  "brand": "Gazzew",
+  "type": "tactile",
+  "bottomOut": 68,
+  "travel": 4,
+  "spring": "17.5 mm",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#e2e1d8",
+    "finish": "milky",
+    "material": "Blend",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#e2e1d8",
+    "finish": "milky",
+    "material": "Blend"
+  },
+  "stem": {
+    "color": "#b8913f",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "POM"
+  },
+  "notes": "Long pole. Made by Outemu. Gazzew's undisclosed \"Boba plastic\" blend. Comes in 62g and 68g; this is the 68g non-RGB with the original milky white housing (later versions are black). Actuation force isn't published. Travel is 4 mm at most vendors, but Pantheon lists 3.2 and 3.7 mm. Lightly lubed. Colors sampled from RNDKBD and Pantheon photos."
+}
