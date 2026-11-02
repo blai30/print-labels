@@ -1,60 +1,118 @@
 import type { LucideIcon } from 'lucide-react'
-import { MoveDown, MoveVertical, Weight } from 'lucide-react'
+import { ArrowDownToLine, Weight } from 'lucide-react'
 import type { ReactNode } from 'react'
 
-import { SwitchIcon } from './SwitchIcon.tsx'
+import { palette, type Point } from './geometry.ts'
+import { ICON_ASPECT, SwitchIcon } from './SwitchIcon.tsx'
 import type { Part, Switch } from './types.ts'
 
-function Spec({ icon: Icon, children }: { icon: LucideIcon; children: ReactNode }) {
+const missing = <span className="text-neutral-500">?</span>
+
+// Trims text to its cap height, so centering lines an icon up with the letters
+const capHeight = '[text-box:trim-both_cap_alphabetic]'
+
+function Spec({ icon: Icon, value, unit }: { icon: LucideIcon; value: ReactNode; unit: string }) {
   return (
     <div className="flex items-center gap-1.5">
-      <Icon className="size-2.25 shrink-0 text-zinc-700" strokeWidth={3} />
-      <span>{children}</span>
+      <Icon className="size-2.5 shrink-0" strokeWidth={2.5} />
+      <span className={`text-[8.5pt]/none font-semibold tracking-[-0.02em] ${capHeight}`}>
+        {value}
+        <span className="ml-px text-[6pt] font-normal tracking-normal">{unit}</span>
+      </span>
     </div>
   )
 }
 
-function Material({ part }: { part: Part }) {
+// Each part on Lucide's 24 x 24 grid: the stem as a square, the top housing narrowing upward, the bottom housing narrowing downward.
+// All three are 17 tall with an average width of 17, so they hold the same area of color.
+const STEM: Point[] = [
+  [3.5, 3.5],
+  [20.5, 3.5],
+  [20.5, 20.5],
+  [3.5, 20.5],
+]
+const TOP: Point[] = [
+  [5.25, 3.5],
+  [18.75, 3.5],
+  [22.25, 20.5],
+  [1.75, 20.5],
+]
+const BOTTOM: Point[] = [
+  [1.75, 3.5],
+  [22.25, 3.5],
+  [18.75, 20.5],
+  [5.25, 20.5],
+]
+
+// A closed path through the points with each corner rounded, like Lucide's shapes
+function roundedPath(points: Point[], radius = 2) {
+  const toward = ([fromX, fromY]: Point, [toX, toY]: Point) => {
+    const length = Math.hypot(toX - fromX, toY - fromY)
+    const cut = Math.min(radius, length / 2) / length
+    return `${fromX + (toX - fromX) * cut},${fromY + (toY - fromY) * cut}`
+  }
+  const corners = points.map((corner, index) => {
+    const previous = points.at(index - 1)!
+    const next = points[(index + 1) % points.length]
+    return `${index ? 'L' : 'M'}${toward(corner, previous)} Q${corner.join(',')} ${toward(corner, next)}`
+  })
+  return corners.join(' ') + 'Z'
+}
+
+// A material beside an outline of its part in the part's color, drawn like the Lucide spec icons
+function Material({ part, shape }: { part: Part; shape: Point[] }) {
   return (
     <div className="flex items-center gap-1.25">
-      <div
-        className="size-1.5 shrink-0 rounded-[1px] bg-white ring-[0.15mm] ring-black/60"
-        style={{ backgroundColor: part.color }}
-      />
-      <span>{part.material ?? <span className="text-zinc-500">?</span>}</span>
+      <svg viewBox="0 0 24 24" className="size-2 shrink-0">
+        <path
+          d={roundedPath(shape)}
+          fill={palette(part).left}
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinejoin="round"
+        />
+      </svg>
+      <span className={capHeight}>{part.material ?? missing}</span>
     </div>
   )
 }
 
 /** One Avery 6460 label (1" x 2-5/8") */
 export function SwitchLabel({ data }: { data: Switch }) {
+  const { actuation, bottomOut } = data
+  // Actuation to bottom-out
+  const force =
+    actuation === undefined && bottomOut === undefined ? (
+      missing
+    ) : (
+      <>
+        {actuation ?? missing}–{bottomOut ?? missing}
+      </>
+    )
   return (
-    <div className="flex h-24 w-63 gap-2.75 overflow-hidden bg-white px-3.25 py-2 font-sans font-features-['ss05'] text-zinc-900">
+    <div className="flex h-24 w-63 gap-2.75 overflow-hidden bg-white px-3.25 py-2 font-sans font-features-['ss05'] text-black">
       <div className="flex min-w-0 flex-1 flex-col whitespace-nowrap">
-        <div className="mb-0.5 text-[5.25pt]/2.25 tracking-wider text-zinc-600 uppercase">{data.brand}</div>
-        <div className="text-[11pt]/4.25 font-semibold tracking-tight">{data.name}</div>
-        <div className="mt-0.5 text-[7.5pt]/3 font-medium capitalize">
+        <div className="text-[5.5pt]/2.25 font-medium tracking-wider uppercase">{data.brand}</div>
+        <div className="text-[12pt]/4.5 font-semibold tracking-[-0.01em]">{data.name}</div>
+        <div className="text-[7.5pt]/3 font-medium capitalize">
+          {data.silent && <span className="font-semibold">Silent </span>}
           {data.type}
-          {data.silent && (
-            <span className="ml-1.25 inline-block rounded-xs px-0.75 py-0.5 text-[5pt]/none font-semibold tracking-wide text-zinc-800 uppercase inset-ring-[0.15mm] [text-box:trim-both_cap_alphabetic]">
-              Silent
-            </span>
-          )}
         </div>
-        <div className="mt-auto grid h-8 grid-cols-[--spacing(14)_auto] grid-rows-3 gap-x-2.25 text-[6pt]/none tabular-nums">
-          <Spec icon={Weight}>
-            {/* Actuation to bottom-out */}
-            {data.actuation !== undefined && <>{data.actuation}–</>}
-            {data.bottomOut ?? <span className="text-zinc-500">?</span>} g
-          </Spec>
-          <Material part={data.stem} />
-          <Spec icon={MoveDown}>{data.preTravel?.toFixed(1) ?? <span className="text-zinc-500">?</span>} mm</Spec>
-          <Material part={data.top} />
-          <Spec icon={MoveVertical}>{data.travel?.toFixed(1) ?? <span className="text-zinc-500">?</span>} mm</Spec>
-          <Material part={data.bottom} />
+        <div className="mt-auto flex h-7 gap-x-1 tabular-nums">
+          {/* Both columns span the block top to bottom, so their first and last rows share edges */}
+          <div className="flex w-20 flex-col justify-between">
+            <Spec icon={Weight} value={force} unit="g" />
+            <Spec icon={ArrowDownToLine} value={data.travel?.toFixed(1) ?? missing} unit="mm" />
+          </div>
+          <div className="flex grow flex-col justify-between text-[6.5pt]/none font-medium">
+            <Material part={data.stem} shape={STEM} />
+            <Material part={data.top} shape={TOP} />
+            <Material part={data.bottom} shape={BOTTOM} />
+          </div>
         </div>
       </div>
-      <div className="aspect-square h-full shrink-0 py-px">
+      {/* The icon anchors the right edge, whole, with room around it */}
+      <div className="h-18 shrink-0 self-center" style={{ aspectRatio: ICON_ASPECT }}>
         <SwitchIcon data={data} lines="black" />
       </div>
     </div>

@@ -36,9 +36,9 @@ Each template is a folder in `src/templates/` with an `index.ts` that returns it
 
 ### Keyboard switches
 
-`src/templates/switches/` makes one lid label per switch for Avery 6460 (1" x 2-5/8"). Each label has the brand, name, type, force, travel, materials, and an isometric icon of the switch. Silent switches get a `SILENT` tag. Missing values print as a gray `?`.
+`src/templates/switches/` makes one lid label per switch for Avery 6460 (1" x 2-5/8"). Each label has the brand, name, type, force, total travel, the stem and housing materials, and an isometric icon of the switch. Each material sits next to a small outline of its part in the part's color. Silent switches have it in the type (like "Silent Linear"). Missing values print as a gray `?`.
 
-Each switch is a JSON file in `data/` named `<brand>-<name>.json` (like `hmx-butter.json`). Copy an existing one to start. `types.ts` has a note on every field. The icon outline style is `LINES` in `SwitchLabel.tsx`.
+Each switch is a JSON file in `data/` named `<brand>-<name>.json` (like `hmx-butter.json`). Copy an existing one to start. `types.ts` has a note on every field. The icon outline style is the `lines` prop on `SwitchIcon` in `SwitchLabel.tsx`.
 
 ## Avery 6460 sheet
 

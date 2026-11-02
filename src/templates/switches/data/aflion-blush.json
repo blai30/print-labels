@@ -9,7 +9,7 @@
   "travel": 3.3,
   "spring": "20 mm two-stage",
   "pins": 5,
-  "lubed": false,
+  "lubed": true,
   "top": {
     "color": "#deafab",
     "finish": "opaque",
@@ -27,5 +27,5 @@
     "style": "mx",
     "material": "POM"
   },
-  "notes": "Actuation and pre-travel from the factory tester sheet in the group buy thread (12/3/22 update)"
+  "notes": "Actuation and pre-travel from the factory tester sheet in the group buy thread (12/3/22 update). Hand-lubed."
 }

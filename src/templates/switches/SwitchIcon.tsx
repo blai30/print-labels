@@ -15,11 +15,14 @@ import {
 import type { Switch } from './types.ts'
 
 const LINE = '#262626'
-const SILHOUETTE = 0.66
+const SILHOUETTE = 0.56
 const SEAM = 0.33
 // Shared frame so icons line up across labels
 const PAD = SILHOUETTE + 0.2
-const VIEW_BOX = [-13.1 - PAD, -18.4 - PAD, 26.2 + 2 * PAD, 24.5 + 2 * PAD].map((value) => value.toFixed(2)).join(' ')
+const FRAME = [-13.1 - PAD, -18.4 - PAD, 26.2 + 2 * PAD, 24.5 + 2 * PAD]
+const VIEW_BOX = FRAME.map((value) => value.toFixed(2)).join(' ')
+/** Width over height, so a container can hug the icon */
+export const ICON_ASPECT = FRAME[2] / FRAME[3]
 
 /** Black outline and seams, seams in a darker shade of each part's color, or no lines */
 export type LineStyle = 'black' | 'tinted' | 'none'
