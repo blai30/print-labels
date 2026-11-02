@@ -10,18 +10,18 @@
   "pins": 5,
   "lubed": true,
   "top": {
-    "color": "#f7ecd1",
+    "color": "#faf3de",
     "finish": "clear",
     "material": "PC",
     "led": "slot"
   },
   "bottom": {
-    "color": "#f7ecd1",
+    "color": "#faf3de",
     "finish": "clear",
     "material": "PC"
   },
   "stem": {
-    "color": "#f9f2df",
+    "color": "#faf7e9",
     "finish": "clear",
     "style": "mx",
     "material": "PC"
