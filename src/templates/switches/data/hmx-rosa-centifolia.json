@@ -1,0 +1,28 @@
+{
+  "name": "Rosa Centifolia",
+  "brand": "HMX",
+  "type": "linear",
+  "preTravel": 2,
+  "travel": 3.5,
+  "spring": "22 mm",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#f0603f",
+    "finish": "clear",
+    "material": "PA12",
+    "led": "diffuser"
+  },
+  "bottom": {
+    "color": "#363636",
+    "finish": "opaque",
+    "material": "P7"
+  },
+  "stem": {
+    "color": "#d8363a",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "LY"
+  },
+  "notes": "Designed by Rena Lab on HMX's new L3 mold with a rose-printed light guide. P7 is PA66 with 50% fiberglass. Force is unset until we know which version: 37g/45g or 45g/53g, both on a 22 mm KOS single-stage spring. Stem legs and sliders have a thin coat of 205g0, spring and leaf are dry-film lubed. Specs from UniKeyboards, Divinikey, and kbd.news. Colors sampled from UniKeyboards photos."
+}
