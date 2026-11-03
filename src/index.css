@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-/* Official static builds. Fontsource strips the stylistic sets, and Chromium turns variable fonts into Type3 outlines in PDFs. */
+/* Official static builds. Chromium turns variable fonts into Type3 outlines in PDFs. */
 @font-face {
   font-family: 'Geist';
   src: url('./assets/fonts/Geist-Regular.woff2') format('woff2');

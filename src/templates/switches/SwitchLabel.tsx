@@ -8,14 +8,11 @@ import type { Part, Switch } from './types.ts'
 
 const missing = <span className="text-neutral-500">?</span>
 
-// Trims text to its cap height, so centering lines an icon up with the letters
-const capHeight = '[text-box:trim-both_cap_alphabetic]'
-
 function Spec({ icon: Icon, value, unit }: { icon: LucideIcon; value: ReactNode; unit: string }) {
   return (
     <div className="flex items-center gap-1.5">
       <Icon className="size-2.5 shrink-0" strokeWidth={2.5} />
-      <span className={`text-[8.5pt]/none font-semibold tracking-[-0.02em] ${capHeight}`}>
+      <span className={`text-[8.5pt]/none font-medium [text-box:trim-both_cap_alphabetic]`}>
         {value}
         <span className="ml-px text-[6pt] font-normal tracking-normal">{unit}</span>
       </span>
@@ -72,7 +69,7 @@ function Material({ part, shape }: { part: Part; shape: Point[] }) {
           strokeLinejoin="round"
         />
       </svg>
-      <span className={capHeight}>{part.material ?? missing}</span>
+      <span className="[text-box:trim-both_cap_alphabetic]">{part.material ?? missing}</span>
     </div>
   )
 }
@@ -90,21 +87,24 @@ export function SwitchLabel({ data }: { data: Switch }) {
       </>
     )
   return (
-    <div className="flex h-24 w-63 gap-2.75 overflow-hidden bg-white px-3.25 py-2 font-sans font-features-['ss05'] text-black">
+    // The brand's caps start at the top padding. The extra px matches the gap under the travel text, which centers on its taller icon.
+    <div className="flex h-24 w-63 gap-2.75 overflow-hidden bg-white px-3.25 pt-2.25 pb-2 font-sans text-black">
       <div className="flex min-w-0 flex-1 flex-col whitespace-nowrap">
-        <div className="text-[5.5pt]/2.25 font-medium tracking-wider uppercase">{data.brand}</div>
+        <div className="text-[5.5pt]/2.25 font-medium tracking-wider uppercase [text-box:trim-start_cap_alphabetic]">
+          {data.brand}
+        </div>
         <div className="text-[12pt]/4.5 font-semibold tracking-[-0.01em]">{data.name}</div>
         <div className="text-[7.5pt]/3 font-medium capitalize">
           {data.silent && <span className="font-semibold">Silent </span>}
           {data.type}
         </div>
-        <div className="mt-auto flex h-7 gap-x-1 tabular-nums">
+        <div className="mt-auto flex h-7 gap-x-1">
           {/* Both columns span the block top to bottom, so their first and last rows share edges */}
           <div className="flex w-20 flex-col justify-between">
             <Spec icon={Weight} value={force} unit="g" />
             <Spec icon={ArrowDownToLine} value={data.travel?.toFixed(1) ?? missing} unit="mm" />
           </div>
-          <div className="flex grow flex-col justify-between text-[6.5pt]/none font-medium">
+          <div className="flex grow flex-col justify-between text-[6.5pt]/none font-normal">
             <Material part={data.stem} shape={STEM} />
             <Material part={data.top} shape={TOP} />
             <Material part={data.bottom} shape={BOTTOM} />

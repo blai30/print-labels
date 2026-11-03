@@ -30,6 +30,8 @@ The export starts its own Vite server and prints each label with Playwright's Ch
 
 Use static font files, not variable ones. Chromium embeds variable fonts in PDFs as Type3 outlines, and Affinity flags those as missing fonts. Geist is in `src/assets/fonts/` as the official static builds (Regular, Medium, SemiBold). Add the weight's file from [vercel/geist-font](https://github.com/vercel/geist-font/tree/main/fonts/Geist/webfonts) if a label needs another one.
 
+Don't use OpenType features (stylistic sets, `tabular-nums`, etc) on labels. Affinity draws the PDF text with the installed font's default glyphs but keeps Chromium's spacing. An alternate `I` came out as the default `I` with the alternate's width.
+
 ## Templates
 
 Each template is a folder in `src/templates/` with an `index.ts` that returns its title and one label per item. Add it to `src/templates.ts` to show it in the workbench and the export.
