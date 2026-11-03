@@ -42,6 +42,25 @@ Each template is a folder in `src/templates/` with an `index.ts` that returns it
 
 Each switch is a JSON file in `data/` named `<brand>-<name>.json` (like `hmx-butter.json`). Copy an existing one to start. `types.ts` has a note on every field. The icon outline style is the `lines` prop on `SwitchIcon` in `SwitchLabel.tsx`.
 
+## Printing
+
+Print the switch labels straight from `label-templates/switch-labels.af` in Affinity, not from the exported PDFs. The Canon PRO-100 gets the colors wrong when printing from a PDF.
+
+One-time setup:
+
+1. Right-click `RR Polar Matte CanPRO-100.icc` (Red River Polar Matte profile for the PRO-100) and click Install Profile. It ends up in `C:\Windows\System32\spool\drivers\color`.
+2. Restart Affinity to pick up the profile.
+3. Make sure the printer uses Canon's own `Canon PRO-100 series` driver, not a Windows-managed one like the Microsoft IPP Class Driver. Check with `Get-Printer | Select Name, DriverName` in PowerShell.
+
+Each print:
+
+1. Open `switch-labels.af` and go to File > Print.
+2. Pick the Canon PRO-100 series printer and set the scale to 100% (no fit to page).
+3. Set the color profile to RR Polar Matte CanPRO-100 so Affinity handles the color conversion.
+4. Open the printer properties and set the media type to Matte Photo Paper N.
+5. Turn on full borderless.
+6. Under Color/Intensity, pick Manual, click Set, and set Color Correction to None on the Matching tab. The driver should not touch the colors since Affinity already applied the profile.
+
 ## Avery 6460 sheet
 
 US Letter, 3 columns by 10 rows. Measurements are from Avery's 6460 template (https://www.avery.com/templates/6460):
