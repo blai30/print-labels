@@ -1,0 +1,27 @@
+{
+  "name": "Azalea",
+  "brand": "HMX",
+  "type": "linear",
+  "preTravel": 2,
+  "travel": 3.8,
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#ecebe8",
+    "finish": "milky",
+    "material": "PA66",
+    "led": "slot"
+  },
+  "bottom": {
+    "color": "#f4f3f1",
+    "finish": "opaque",
+    "material": "Nylon"
+  },
+  "stem": {
+    "color": "#e2432f",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "POM"
+  },
+  "notes": "Designed by WY Lab on HMX's new L3 mold. Top is PA66 + 10% fiberglass, bottom is N1 nylon, stem is POM with ceramic powder. Force is unset until we know which spring: 42g/50g on a 20 mm KOS single-stage, or 45g/55g on an 18 mm one (UniKeyboards also sells a 45g bottom-out). Springs and stem legs are factory lubed, rails dry. Specs from UniKeyboards, Milktooth, and Keebpedia. Colors sampled from UniKeyboards photos."
+}
