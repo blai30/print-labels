@@ -1,0 +1,31 @@
+{
+  "name": "Macchiato V2",
+  "brand": "HMX",
+  "vendor": "Divinikey",
+  "type": "linear",
+  "actuation": 50,
+  "bottomOut": 57,
+  "preTravel": 2,
+  "travel": 3.8,
+  "spring": "22 mm",
+  "pins": 5,
+  "lubed": true,
+  "top": {
+    "color": "#eeebe6",
+    "finish": "opaque",
+    "material": "PA12",
+    "led": "diffuser"
+  },
+  "bottom": {
+    "color": "#c99573",
+    "finish": "opaque",
+    "material": "PA2"
+  },
+  "stem": {
+    "color": "#cfa48b",
+    "finish": "opaque",
+    "style": "mx",
+    "material": "POK"
+  },
+  "notes": "Designed by YG Studio on HMX's L3 mold. Divinikey sells 42g/50g and 50g/57g versions on a 22 mm KOS single-stage spring. These are the 50g/57g ones. kbd.news calls the bottom housing P2 nylon with fiberglass. Stem legs and sliders have a thin coat of 205g0, spring and leaf are dry-film lubed. Specs from Divinikey and kbd.news. Colors sampled from Divinikey photos."
+}
